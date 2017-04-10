@@ -1,0 +1,47 @@
+---
+- name: getent passwd 0
+  become: False
+  vars:
+  - ansible_become: False
+  getent:
+    database: passwd
+    key: 0
+
+- block:
+  - name: try disable become
+    register: try_disabled_become
+    become: False
+    become_user: "{{ __root_user__ }}"
+    vars:
+    - ansible_become: False
+    - ansible_become_user: "{{ __root_user__ }}"
+    command: id -u
+    failed_when: >-
+      try_disabled_become.rc is not defined
+      or try_disabled_become.rc != 0
+      or try_disabled_become.stdout_lines is not defined
+      or try_disabled_become.stdout_lines | length != 1
+    changed_when: False
+
+  - name: set_fact root_need_become and root_user
+    set_fact:
+      root_user: "{{ __root_user__ }}"
+      root_need_become: "{{ try_disabled_become.stdout_lines[0] != '0' }}"
+  vars:
+  - __root_user__: "{{ getent_passwd.keys() | first | d('root', True) }}"
+
+- name: require the root permission
+  register: can_become_as_root
+  become: "{{ root_need_become }}"
+  become_user: "{{ root_user }}"
+  vars:
+  - ansible_become: "{{ root_need_become }}"
+  - ansible_become_user: "{{ root_user }}"
+  command: id -u
+  changed_when: False
+  failed_when: >-
+    can_become_as_root.rc is not defined
+    or can_become_as_root.rc != 0
+    or can_become_as_root.stdout_lines is not defined
+    or can_become_as_root.stdout_lines | length != 1
+    or can_become_as_root.stdout_lines[0] != "0"

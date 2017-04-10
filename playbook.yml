@@ -1,0 +1,55 @@
+---
+- hosts: all
+  gather_facts: False
+  vars:
+  - ansible_user: root
+  tasks:
+  - name: create userGuest
+    shell: id userGuest || echo -e "123456\n123456\n" | adduser userGuest
+    changed_when: False
+  - name: create userAdmin
+    shell: id userAdmin || { echo -e "123456\n123456\n" | adduser userAdmin && addgroup userAdmin wheel; }
+    changed_when: False
+  - name: enable wheel group
+    lineinfile:
+      name: /etc/sudoers
+      state: present
+      regexp: '^%wheel\s'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+
+- hosts: should_pass
+  gather_facts: False
+  roles:
+    - role: ansible-require-become-root-role
+
+- hosts: should_fail
+  gather_facts: False
+  tasks:
+  - block:
+    - name: include role
+      include_role:
+        name: ansible-require-become-root-role
+    - name: result=false
+      set_fact:
+        role_result: False
+    rescue:
+    - name: result=true
+      set_fact:
+        role_result: True
+    always:
+    - name: assert role_result == True
+      assert:
+        that:
+        - "role_result == True"
+        - "can_become_as_root | failed"
+
+- hosts: all
+  gather_facts: False
+  tasks:
+  - name: check facts
+    assert:
+      that:
+      - "ansible_user == 'root' or root_need_become == True"
+      - "ansible_user != 'root' or root_need_become == False"
+      - "root_user == 'root'"

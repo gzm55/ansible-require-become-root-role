@@ -1,0 +1,24 @@
+galaxy_info:
+  author: James Z.M. Gao
+  description: Require the following tasks can become as root user.
+
+  license: BSD
+
+  min_ansible_version: 2.0
+
+  platforms:
+  - name: GenericUNIX
+    versions:
+    - any
+  - name: GenericBSD
+    versions:
+    - any
+  - name: GenericLinux
+    versions:
+    - any
+
+  galaxy_tags:
+  - system
+
+allow_duplicates: no
+dependencies: []

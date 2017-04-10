@@ -1,0 +1,39 @@
+---
+dependency:
+  name: galaxy
+ansible:
+  group_vars:
+    as_root:
+      ansible_user: root
+    as_guest:
+      ansible_user: userGuest
+    as_admin:
+      ansible_user: userAdmin
+      ansible_become: True
+      ansible_become_user: root
+  ansiblecfg_ssh_connection:
+    pipelining: True
+driver:
+  name: docker
+docker:
+  containers:
+    - name: test-require-become-root-1
+      image: python
+      image_version: 2-alpine
+      ansible_groups:
+        - should_pass
+        - as_root
+    - name: test-require-become-root-2
+      image: python
+      image_version: 2-alpine
+      ansible_groups:
+        - should_fail
+        - as_guest
+    - name: test-require-become-root-3
+      image: python
+      image_version: 2-alpine
+      ansible_groups:
+        - should_pass
+        - as_admin
+verifier:
+  name: testinfra

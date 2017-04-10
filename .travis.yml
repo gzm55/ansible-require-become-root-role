@@ -1,0 +1,31 @@
+---
+language: python
+python: "2.7"
+
+sudo: required
+
+# Use the docker for testing
+services:
+  - docker
+
+# Install ansible
+addons:
+  apt:
+    packages:
+    - python-pip
+
+install:
+  # Install ansible
+  - pip install ansible molecule
+
+  # Check ansible version
+  - ansible --version
+
+  # Install python module
+  - test ! -f requirements.txt || pip install -r requirements.txt
+
+script:
+  - molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
