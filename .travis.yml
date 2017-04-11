@@ -21,6 +21,10 @@ install:
   # Check ansible version
   - ansible --version
 
+  # patch ansible for bug #23016
+  - sed -i '/def set_variable/i#\n    def remove_group(self, group):\n        self.groups.remove(group)' "`python -c "import os, ansible; print(os.path.dirname(os.path.abspath(ansible.__file__))+'/inventory/host.py')"`"
+  - sed -i '/def set_variable/i#\n    def remove_host(self, host):\n        self.hosts.remove(host)\n        host.remove_group(self)\n        self.clear_hosts_cache()' "`python -c "import os, ansible; print(os.path.dirname(os.path.abspath(ansible.__file__))+'/inventory/group.py')"`"
+
   # Install python module
   - test ! -f requirements.txt || pip install -r requirements.txt
 
