@@ -16,6 +16,7 @@ addons:
 
 install:
   # Install ansible
+  - pip install testinfra
   - pip install ansible molecule docker
 
   # Check ansible version
