@@ -32,7 +32,7 @@
 
 - name: require the root permission
   register: can_become_as_root
-  become: "{{ root_need_become }}"
+  become: root_need_become
   become_user: "{{ root_user }}"
   vars:
   - ansible_become: "{{ root_need_become }}"
