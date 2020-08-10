@@ -29,6 +29,11 @@ platforms:
 
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+  options:
+    vvv: True
   inventory:
     group_vars:
       as_root:
@@ -39,8 +44,3 @@ provisioner:
         ansible_user: userAdmin
         ansible_become: True
         ansible_become_user: root
-        #playbooks:
-        #prepare: prepare.yml
-
-verifier:
-  name: ansible
