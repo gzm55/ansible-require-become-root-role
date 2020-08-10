@@ -2,7 +2,7 @@
 - hosts: should_pass
   gather_facts: False
   roles:
-    - role: ansible-require-become-root-role
+  - role: ansible-require-become-root-role
 
 - hosts: should_fail
   gather_facts: False
