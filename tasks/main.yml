@@ -35,8 +35,8 @@
   become: "{{ root_need_become }}"
   become_user: "{{ root_user }}"
   vars:
-          #- ansible_become: "{{ root_need_become }}"
-          #70657
+  # work round for issue 70657
+  #- ansible_become: "{{ root_need_become }}"
   - ansible_become_user: "{{ root_user }}"
   command: id -u
   changed_when: False
