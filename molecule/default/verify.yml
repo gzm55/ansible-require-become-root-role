@@ -14,6 +14,6 @@
   - name: check facts
     assert:
       that:
-      - "ansible_user == 'root' or root_need_become == True"
-      - "ansible_user != 'root' or root_need_become == False"
+      - "ansible_user == 'root' or root_need_become"
+      - "ansible_user != 'root' or not root_need_become"
       - "root_user == 'root'"
