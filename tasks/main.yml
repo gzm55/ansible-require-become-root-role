@@ -5,7 +5,7 @@
   - ansible_become: False
   getent:
     database: passwd
-    key: 0
+    key: "0"
 
 - block:
   - name: try disable become
@@ -32,10 +32,11 @@
 
 - name: require the root permission
   register: can_become_as_root
-  become: root_need_become
+  become: "{{ root_need_become }}"
   become_user: "{{ root_user }}"
   vars:
-  - ansible_become: "{{ root_need_become }}"
+          #- ansible_become: "{{ root_need_become }}"
+          #70657
   - ansible_become_user: "{{ root_user }}"
   command: id -u
   changed_when: False
