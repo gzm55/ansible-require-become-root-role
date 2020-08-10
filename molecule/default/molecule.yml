@@ -34,8 +34,6 @@ provisioner:
       interpreter_python: auto_silent
     connection:
       pipelining: True
-  options:
-    vvv: True
   inventory:
     group_vars:
       as_root:
