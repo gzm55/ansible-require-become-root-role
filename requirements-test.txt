@@ -1,2 +1,1 @@
-molecule[lint]
-molecule[docker]
+molecule[lint,docker]
