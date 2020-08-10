@@ -1,8 +1,7 @@
 ---
+os: linux
+dist: xenial
 language: python
-python: "2.7"
-
-sudo: required
 
 # Use the docker for testing
 services:
@@ -15,14 +14,15 @@ addons:
     - python-pip
 
 install:
-  # Install ansible
-  - pip install ansible molecule docker
+  # Install python module, including ansible
+  - test ! -f requirements.txt      || pip install -r requirements.txt
+  - test ! -f requirements-test.txt || pip install -r requirements-test.txt
 
   # Check ansible version
   - ansible --version
 
-  # Install python module
-  - test ! -f requirements.txt || pip install -r requirements.txt
+  # Check molecule version
+  - molecule --version
 
 script:
   - molecule test

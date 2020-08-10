@@ -1,0 +1,20 @@
+---
+- hosts: should_pass
+  gather_facts: False
+  roles:
+    - role: ansible-require-become-root-role
+
+- hosts: should_fail
+  gather_facts: False
+  tasks:
+  - block:
+    - name: include role
+      include_role:
+        name: ansible-require-become-root-role
+    - name: result=false
+      set_fact:
+        role_result: False
+    rescue:
+    - name: result=true
+      set_fact:
+        role_result: True

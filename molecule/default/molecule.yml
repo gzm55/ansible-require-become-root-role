@@ -1,0 +1,41 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+- name: test-require-become-root-1
+  image: python:3-alpine
+  groups:
+  - should_pass
+  - as_root
+- name: test-require-become-root-2
+  image: python:3-alpine
+  groups:
+  - should_fail
+  - as_guest
+- name: test-require-become-root-3
+  image: python:3-alpine
+  groups:
+  - should_pass
+  - as_admin
+
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      as_root:
+        ansible_user: root
+      as_guest:
+        ansible_user: userGuest
+      as_admin:
+        ansible_user: userAdmin
+        ansible_become: True
+        ansible_become_user: root
+        #playbooks:
+        #prepare: prepare.yml
+
+verifier:
+  name: ansible

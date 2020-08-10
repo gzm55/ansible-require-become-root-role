@@ -1,0 +1,31 @@
+---
+- hosts: all
+  gather_facts: False
+  vars:
+  # directly run as root
+  - ansible_user: root
+
+  tasks:
+  - name: install sudo
+    package:
+      name: sudo
+      state: present
+
+  - name: enable wheel group
+    lineinfile:
+      name: /etc/sudoers
+      state: present
+      regexp: '^%wheel\s'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+
+  - name: create userGuest
+    user:
+      name: userGuest
+      password: "{{ '123456' | password_hash }}"
+
+  - name: create userAdmin
+    user:
+      name: userAdmin
+      password: "{{ '123456' | password_hash }}"
+      group: wheel

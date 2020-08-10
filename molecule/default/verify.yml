@@ -1,0 +1,19 @@
+---
+- hosts: should_fail
+  gather_facts: False
+  tasks:
+  - name: assert expected fail task
+    assert:
+      that:
+      - "role_result"
+      - "can_become_as_root is failed"
+
+- hosts: all
+  gather_facts: False
+  tasks:
+  - name: check facts
+    assert:
+      that:
+      - "ansible_user == 'root' or root_need_become == True"
+      - "ansible_user != 'root' or root_need_become == False"
+      - "root_user == 'root'"
