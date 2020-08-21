@@ -3,9 +3,13 @@
   become: False
   vars:
   - ansible_become: False
-  getent:
-    database: passwd
-    key: "0"
+  register: getent_passwd_result
+  raw: getent passwd 0
+  failed_when: False
+  changed_when: False
+  #getent:
+  #database: passwd
+  #key: "0"
 
 - block:
   - name: try disable become
@@ -15,7 +19,7 @@
     vars:
     - ansible_become: False
     - ansible_become_user: "{{ __root_user__ }}"
-    command: id -u
+    raw: id -u
     failed_when: >-
       try_disabled_become.rc is not defined
       or try_disabled_become.rc != 0
@@ -28,7 +32,8 @@
       root_user: "{{ __root_user__ }}"
       root_need_become: "{{ try_disabled_become.stdout_lines[0] != '0' }}"
   vars:
-  - __root_user__: "{{ getent_passwd.keys() | first | d('root', True) }}"
+          #- __root_user__: "{{ getent_passwd.keys() | first | d('root', True) }}"
+  - __root_user__: "{{ (getent_passwd_result.rc | d(1) == 0) | ternary((getent_passwd_result.stdout_lines | first | d('root:')).split(':')[0], 'root') }}"
 
 - name: require the root permission
   register: can_become_as_root
@@ -38,7 +43,7 @@
   # work round for issue 70657
   #- ansible_become: "{{ root_need_become }}"
   - ansible_become_user: "{{ root_user }}"
-  command: id -u
+  raw: id -u
   changed_when: False
   failed_when: >-
     can_become_as_root.rc is not defined
