@@ -1,4 +1,4 @@
-require_become_root (1.0.2)
+require_become_root (1.0.3-dev)
 ===============================
 
 Require the following tasks can `become` as `root` user.
