@@ -11,6 +11,7 @@ services:
 addons:
   apt:
     packages:
+    - docker-ce
     - python-pip
 
 install:
