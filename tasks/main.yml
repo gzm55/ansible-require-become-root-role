@@ -49,5 +49,5 @@
     can_become_as_root.rc is not defined
     or can_become_as_root.rc != 0
     or can_become_as_root.stdout_lines is not defined
-    or can_become_as_root.stdout_lines | length != 1
-    or can_become_as_root.stdout_lines[0] != "0"
+    or can_become_as_root.stdout_lines | select('search', '.') | length != 1
+    or can_become_as_root.stdout_lines | select('search', '.') | first != "0"
