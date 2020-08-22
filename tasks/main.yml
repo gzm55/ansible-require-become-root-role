@@ -7,9 +7,6 @@
   raw: getent passwd 0
   failed_when: False
   changed_when: False
-  #getent:
-  #database: passwd
-  #key: "0"
 
 - block:
   - name: try disable become
@@ -24,15 +21,14 @@
       try_disabled_become.rc is not defined
       or try_disabled_become.rc != 0
       or try_disabled_become.stdout_lines is not defined
-      or try_disabled_become.stdout_lines | length != 1
+      or not try_disabled_become.stdout_lines
     changed_when: False
 
   - name: set_fact root_need_become and root_user
     set_fact:
       root_user: "{{ __root_user__ }}"
-      root_need_become: "{{ try_disabled_become.stdout_lines[0] != '0' }}"
+      root_need_become: "{{ try_disabled_become.stdout_lines | last != '0' }}"
   vars:
-          #- __root_user__: "{{ getent_passwd.keys() | first | d('root', True) }}"
   - __root_user__: "{{ (getent_passwd_result.rc | d(1) == 0) | ternary((getent_passwd_result.stdout_lines | first | d('root:')).split(':')[0], 'root') }}"
 
 - name: require the root permission
@@ -49,5 +45,5 @@
     can_become_as_root.rc is not defined
     or can_become_as_root.rc != 0
     or can_become_as_root.stdout_lines is not defined
-    or can_become_as_root.stdout_lines | select('search', '.') | list | length != 1
-    or can_become_as_root.stdout_lines | select('search', '.') | first != "0"
+    or can_become_as_root.stdout_lines | select('search', '.') | list | length < 1
+    or can_become_as_root.stdout_lines | select('search', '.') | last != "0"
