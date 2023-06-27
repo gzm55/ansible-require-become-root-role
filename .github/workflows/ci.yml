@@ -27,9 +27,9 @@ jobs:
         set -x
         pip3 install -r requirements.txt
 
-    - name: TODO
-      run: "false"
-
+    - uses: gofrolist/molecule-action@v2
+      with:
+        molecule_working_dir: ".."
 
   lint-job:
     name: lint codes
