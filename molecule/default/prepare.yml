@@ -23,10 +23,10 @@
   - name: Create userGuest
     ansible.builtin.user:
       name: userGuest
-      password: "{{ '123456' | password_hash }}"
+      password: "{{ '123456' | ansible.builtin.password_hash }}"
 
   - name: Create userAdmin
     ansible.builtin.user:
       name: userAdmin
-      password: "{{ '123456' | password_hash }}"
+      password: "{{ '123456' | ansible.builtin.password_hash }}"
       group: wheel

@@ -39,7 +39,7 @@ jobs:
     - name: prepare lint
       run: |
         pip3 install -r requirements.txt
-        pip3 install ansible-lint
+        pip3 install passlib ansible-lint
         ansible-lint --version
     - name: lint
       run: ansible-lint --show-relpath
