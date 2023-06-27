@@ -2,8 +2,8 @@
 - hosts: all
   gather_facts: False
   vars:
-  # directly run as root
-  - ansible_user: root
+    # directly run as root
+    ansible_user: root
 
   tasks:
   - name: install sudo

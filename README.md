@@ -1,4 +1,4 @@
-require_become_root (1.0.4-dev)
+require_become_root (2.0.0-dev)
 ===============================
 
 Require the following tasks can `become` as `root` user.
@@ -11,7 +11,7 @@ Requirements
 ------------
 
 python module
-- ansible>=2.0
+- ansible>=2.8
 - jinja2>=2.6
 
 remote command: id
@@ -43,8 +43,8 @@ Example Playbook
            become: "{{ root_need_become }}"
            become_user: "{{ root_user }}"
            vars:
-           - ansible_become: "{{ root_need_become }}"
-           - ansible_become_user: "{{ root_user }}"
+             ansible_become: "{{ root_need_become }}"
+             ansible_become_user: "{{ root_user }}"
            command: exit
 
 License
