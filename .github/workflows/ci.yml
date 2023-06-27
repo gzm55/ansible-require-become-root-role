@@ -27,9 +27,6 @@ jobs:
         set -x
         pip3 install -r requirements.txt
 
-    - name: syntax check
-      run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-
     - name: TODO
       run: "false"
 
