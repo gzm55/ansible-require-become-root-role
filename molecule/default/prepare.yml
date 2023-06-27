@@ -1,17 +1,18 @@
 ---
-- hosts: all
+- name: Prepare
+  hosts: all
   gather_facts: False
   vars:
     # directly run as root
     ansible_user: root
 
   tasks:
-  - name: install sudo
-    package:
+  - name: Install sudo
+    ansible.builtin.package:
       name: sudo
       state: present
 
-  - name: enable wheel group
+  - name: Enable wheel group
     lineinfile:
       name: /etc/sudoers
       state: present
@@ -19,13 +20,13 @@
       line: '%wheel ALL=(ALL) NOPASSWD: ALL'
       validate: 'visudo -cf %s'
 
-  - name: create userGuest
-    user:
+  - name: Create userGuest
+    ansible.builtin.user:
       name: userGuest
       password: "{{ '123456' | password_hash }}"
 
-  - name: create userAdmin
-    user:
+  - name: Create userAdmin
+    ansible.builtin.user:
       name: userAdmin
       password: "{{ '123456' | password_hash }}"
       group: wheel

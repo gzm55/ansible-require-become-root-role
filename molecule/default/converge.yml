@@ -1,10 +1,12 @@
 ---
-- hosts: should_pass
+- name: Test role for hosts should_pass
+  hosts: should_pass
   gather_facts: False
   roles:
   - role: ansible-require-become-root-role
 
-- hosts: should_fail
+- name: Test role for hosts should_fail
+  hosts: should_fail
   gather_facts: False
   tasks:
   - block:
@@ -21,7 +23,8 @@
 
 ### INLINE VERIFY
 
-- hosts: should_pass
+- name: Verify resulting facts of the role for hosts should_pass
+  hosts: should_pass
   gather_facts: False
   tasks:
   - name: check facts
@@ -31,7 +34,8 @@
       - "ansible_user != 'root' or not root_need_become"
       - "root_user == 'root'"
 
-- hosts: should_fail
+- name: Verify resulting facts of the role for hosts should_fail
+  hosts: should_fail
   gather_facts: False
   tasks:
   - name: assert expected fail task

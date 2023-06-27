@@ -8,7 +8,10 @@
   failed_when: False
   changed_when: False
 
-- block:
+- name: Set __root_user__
+  vars:
+    __root_user__: "{{ (getent_passwd_result.rc | d(1) == 0) | ternary((getent_passwd_result.stdout_lines | first | d('root:')).split(':')[0], 'root') }}"
+  block:
   - name: Try disable become
     register: try_disabled_become
     become: False
@@ -28,9 +31,6 @@
     ansible.builtin.set_fact:
       root_user: "{{ __root_user__ }}"
       root_need_become: "{{ try_disabled_become.stdout_lines | last != '0' }}"
-
-  vars:
-    __root_user__: "{{ (getent_passwd_result.rc | d(1) == 0) | ternary((getent_passwd_result.stdout_lines | first | d('root:')).split(':')[0], 'root') }}"
 
 - name: Require the root permission
   register: can_become_as_root
