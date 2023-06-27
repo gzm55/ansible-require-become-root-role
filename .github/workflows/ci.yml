@@ -2,16 +2,11 @@
 name: ci workflow
 "on": push
 
-  #env:
-  #ANSIBLE_ROLES_PATH: ".."
-
 jobs:
   test-job:
     name: test the role
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
-
     - name: print versions
       run: |
         set -x
@@ -22,19 +17,24 @@ jobs:
         ansible --version
         docker version
 
-    - name: prepare tests
-      run: |
-        set -x
-        pip3 install -r requirements.txt
-        pwd
+        #- name: prepare tests
+        #run: |
+        #set -x
+        #pip3 install -r requirements.txt
+        #pwd
 
+    - uses: actions/checkout@v3
+      with:
+        path: "${{ github.repository }}"
     - uses: gofrolist/molecule-action@v2
       #with:
-      #  molecule_working_dir: ".."
+      #  molecule_working_dir: "${{ github.repository_owner }}"
 
   lint-job:
     name: lint codes
     runs-on: ubuntu-22.04
+    env:
+      ANSIBLE_ROLES_PATH: ".."
     steps:
     - uses: actions/checkout@v3
     - name: prepare lint
