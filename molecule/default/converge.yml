@@ -9,16 +9,17 @@
   hosts: should_fail
   gather_facts: False
   tasks:
-  - block:
-    - name: include role
-      include_role:
+  - name: Should fail block
+    block:
+    - name: Include role
+      ansible.builtin.include_role:
         name: ansible-require-become-root-role
-    - name: result=false
-      set_fact:
+    - name: Result=false
+      ansible.builtin.set_fact:
         role_result: False
     rescue:
-    - name: result=true
-      set_fact:
+    - name: Result=true
+      ansible.builtin.set_fact:
         role_result: True
 
 ### INLINE VERIFY
@@ -27,8 +28,8 @@
   hosts: should_pass
   gather_facts: False
   tasks:
-  - name: check facts
-    assert:
+  - name: Check facts
+    ansible.builtin.assert:
       that:
       - "ansible_user == 'root' or root_need_become"
       - "ansible_user != 'root' or not root_need_become"
@@ -38,8 +39,8 @@
   hosts: should_fail
   gather_facts: False
   tasks:
-  - name: assert expected fail task
-    assert:
+  - name: Assert expected fail task
+    ansible.builtin.assert:
       that:
       - "role_result"
       - "can_become_as_root is failed"

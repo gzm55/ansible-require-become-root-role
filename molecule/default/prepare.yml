@@ -13,7 +13,7 @@
       state: present
 
   - name: Enable wheel group
-    lineinfile:
+    ansible.builtin.lineinfile:
       name: /etc/sudoers
       state: present
       regexp: '^%wheel\s'
