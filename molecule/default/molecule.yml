@@ -9,7 +9,7 @@ dependency:
     ansible --version
     #pip3 install ansible-lint
     ansible-lint --version
-    git config --global --add safe.directory "$(pwd)"
+    git config --global --add safe.directory "`pwd`"
 
 lint: |
   set -ex
