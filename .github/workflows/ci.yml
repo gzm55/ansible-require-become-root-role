@@ -6,6 +6,8 @@ jobs:
   test-job:
     name: test the role
     runs-on: ubuntu-22.04
+    env:
+      ANSIBLE_ROLES_PATH: ".."
     steps:
     - name: print versions
       run: |
@@ -24,11 +26,11 @@ jobs:
         #pip3 install -r requirements.txt
 
     - uses: actions/checkout@v3
-      with:
-        path: "${{ github.repository }}"
+      #with:
+      #  path: "${{ github.repository }}"
     - uses: gofrolist/molecule-action@v2
-      with:
-        molecule_working_dir: "${{ github.repository }}"
+      #with:
+      #  molecule_working_dir: "${{ github.repository }}"
 
   lint-job:
     name: lint codes
