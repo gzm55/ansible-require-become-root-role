@@ -43,7 +43,8 @@ jobs:
   deploy-job:
     name: deploy the role on tag
     runs-on: ubuntu-22.04
-    needs: [test-job, lint-job]
+      #needs: [test-job, lint-job]
+    needs: [test-job]
     if: github.ref_type == 'tag'
     steps:
     - uses: actions/checkout@v3
