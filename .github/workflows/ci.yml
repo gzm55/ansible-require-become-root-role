@@ -2,9 +2,6 @@
 name: ci workflow
 "on": push
 
-  #env:
-  #ANSIBLE_ROLES_PATH: ".."
-
 jobs:
   test-job:
     name: test the role
@@ -24,6 +21,8 @@ jobs:
       with:
         path: "${{ github.repository }}"
     - uses: gofrolist/molecule-action@v2
+      env:
+        ANSIBLE_ROLES_PATH: ".."
       with:
         molecule_working_dir: "${{ github.repository }}"
 
