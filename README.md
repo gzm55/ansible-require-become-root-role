@@ -11,7 +11,7 @@ Requirements
 ------------
 
 python module
-- ansible>=2.8
+- ansible-core>=2.8
 - jinja2>=2.6
 
 remote command: id

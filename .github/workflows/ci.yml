@@ -2,8 +2,8 @@
 name: ci workflow
 "on": push
 
-env:
-  ANSIBLE_ROLES_PATH: ".."
+  #env:
+  #ANSIBLE_ROLES_PATH: ".."
 
 jobs:
   test-job:
@@ -27,24 +27,10 @@ jobs:
       with:
         molecule_working_dir: "${{ github.repository }}"
 
-          #lint-job:
-          #name: lint codes
-          #runs-on: ubuntu-22.04
-          #steps:
-          #- uses: actions/checkout@v3
-          #- name: prepare lint
-          #run: |
-          #pip3 install -r requirements.txt
-          #pip3 install passlib ansible-lint
-          #ansible-lint --version
-          #- name: lint
-          #run: ansible-lint --show-relpath
-
   deploy-job:
     name: deploy the role on tag
     runs-on: ubuntu-22.04
-      #needs: [test-job, lint-job]
-    needs: [test-job]
+    needs: test-job
     if: github.ref_type == 'tag'
     steps:
     - uses: actions/checkout@v3

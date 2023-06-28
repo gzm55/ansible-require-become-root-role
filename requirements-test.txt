@@ -1,3 +1,2 @@
-# 4.3.0 require docker api v1.39
-docker<4.3.0
+docker
 molecule[lint,docker]

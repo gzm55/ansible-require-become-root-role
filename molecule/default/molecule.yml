@@ -3,6 +3,7 @@ dependency:
   name: shell
   command: |
     set -ex
+    uname -a
     id
     python3 --version
     pip3 install -U pip
