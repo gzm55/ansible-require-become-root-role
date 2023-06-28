@@ -2,12 +2,13 @@
 name: ci workflow
 "on": push
 
+env:
+  ANSIBLE_ROLES_PATH: ".."
+
 jobs:
   test-job:
     name: test the role
     runs-on: ubuntu-22.04
-    env:
-      ANSIBLE_ROLES_PATH: ".."
     steps:
     - name: print versions
       run: |
@@ -35,8 +36,6 @@ jobs:
   lint-job:
     name: lint codes
     runs-on: ubuntu-22.04
-    env:
-      ANSIBLE_ROLES_PATH: ".."
     steps:
     - uses: actions/checkout@v3
     - name: prepare lint

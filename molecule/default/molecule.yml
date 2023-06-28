@@ -1,11 +1,20 @@
 ---
 dependency:
-  name: galaxy
+  name: shell
+  command: |
+    set -ex
+    id
+    python3 --version
+    pip3 --version
+    ansible --version
+    pip3 install ansible-lint
+    ansible-lint --version
 
 lint: |
-  set -e
+  set -ex
+  env
   yamllint .
-  ansible-lint
+  ansible-lint --show-relpath
 
 driver:
   name: docker
@@ -29,8 +38,6 @@ platforms:
 
 provisioner:
   name: ansible
-  env:
-    ANSIBLE_ROLES_PATH: ".."
   config_options:
     defaults:
       interpreter_python: auto_silent
