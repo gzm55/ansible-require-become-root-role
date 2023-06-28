@@ -16,19 +16,19 @@ jobs:
         pip3 --version
         ansible --version
         docker version
+        pwd
 
         #- name: prepare tests
         #run: |
         #set -x
         #pip3 install -r requirements.txt
-        #pwd
 
     - uses: actions/checkout@v3
       with:
         path: "${{ github.repository }}"
     - uses: gofrolist/molecule-action@v2
-      #with:
-      #  molecule_working_dir: "${{ github.repository_owner }}"
+      with:
+        molecule_working_dir: "${{ github.repository }}"
 
   lint-job:
     name: lint codes
