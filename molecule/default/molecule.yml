@@ -5,15 +5,15 @@ dependency:
     set -ex
     id
     python3 --version
+    pip3 install -U pip
     pip3 --version
     ansible --version
-    #pip3 install ansible-lint
+    pip3 install -U passlib ansible-lint
     ansible-lint --version
     git config --global --add safe.directory "`pwd`"
 
 lint: |
   set -ex
-  env
   ansible-lint --show-relpath
 
 driver:

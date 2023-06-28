@@ -19,12 +19,6 @@ jobs:
         pip3 --version
         ansible --version
         docker version
-        pwd
-
-        #- name: prepare tests
-        #run: |
-        #set -x
-        #pip3 install -r requirements.txt
 
     - uses: actions/checkout@v3
       with:
@@ -33,18 +27,18 @@ jobs:
       with:
         molecule_working_dir: "${{ github.repository }}"
 
-  lint-job:
-    name: lint codes
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v3
-    - name: prepare lint
-      run: |
-        pip3 install -r requirements.txt
-        pip3 install passlib ansible-lint
-        ansible-lint --version
-    - name: lint
-      run: ansible-lint --show-relpath
+          #lint-job:
+          #name: lint codes
+          #runs-on: ubuntu-22.04
+          #steps:
+          #- uses: actions/checkout@v3
+          #- name: prepare lint
+          #run: |
+          #pip3 install -r requirements.txt
+          #pip3 install passlib ansible-lint
+          #ansible-lint --version
+          #- name: lint
+          #run: ansible-lint --show-relpath
 
   deploy-job:
     name: deploy the role on tag
